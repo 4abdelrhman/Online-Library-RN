@@ -1,0 +1,43 @@
+# Node modules
+backend/node_modules/
+mobile/node_modules/
+
+# Environment variables
+backend/.env
+
+# Logs
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# IDE / Editor folders
+.vscode/
+.idea/
+
+# Runtime files
+*.pid
+*.seed
+*.pid.lock
+
+# Build artifacts
+dist/
+build/
+
+# Optional: coverage/test results
+coverage/
+.nyc_output/
+
+# TypeScript (if used later)
+*.tsbuildinfo
+
+# Metro / React Native cache (if mobile is React Native)
+mobile/.expo/
+mobile/.expo-shared/
+mobile/.android/
+mobile/.ios/

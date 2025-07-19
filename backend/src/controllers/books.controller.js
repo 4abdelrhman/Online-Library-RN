@@ -27,6 +27,11 @@ export const addBook = async (req, res) => {
     if (!title || !author || !description || !coverURI) {
       return res.status(400).json({ message: 'Please provide all fields' });
     }
+    const isBookExist = await Book.findOne({ title });
+    if (isBookExist)
+      return res
+        .status(400)
+        .json({ success: false, message: 'Book already exist' });
     const uploadRes = await cloudinary.uploader.upload(coverURI);
     const imgURL = uploadRes.secure_url;
     const newBook = new Book({

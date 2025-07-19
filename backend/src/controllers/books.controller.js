@@ -50,7 +50,6 @@ export const editBook = async (req, res) => {
   try {
     const { id } = req.params;
     const { newTitle, newAuthor, newDescription, newCoverURI } = req.body;
-
     const book = await Book.findById(id);
     if (!book) {
       res.status(400).json({
@@ -58,11 +57,9 @@ export const editBook = async (req, res) => {
         message: 'Book not found',
       });
     }
-
     if (newTitle) book.title = newTitle;
     if (newAuthor) book.author = newAuthor;
     if (newDescription) book.description = newDescription;
-
     if (coverURI && coverURI !== book.coverURI) {
       const uploadRes = await cloudinary.uploader.upload(coverURI, {
         folder: 'book-covers',
@@ -70,7 +67,6 @@ export const editBook = async (req, res) => {
       book.coverURI = uploadRes.secure_url;
     }
     await book.save();
-
     res.status(200).json({
       success: true,
       message: 'Book updated successfully',
@@ -82,4 +78,21 @@ export const editBook = async (req, res) => {
   }
 };
 
-export const deleteBook = async (req, res) => {};
+export const deleteBook = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const bookToDelete = await Book.findByIdAndDelete(id);
+    if (!bookToDelete)
+      res.status(400).json({
+        success: false,
+        message: 'Book not found',
+      });
+    res.status(200).json({
+      success: true,
+      message: 'Book deleted successfully',
+    });
+  } catch (error) {
+    console.error('Error deleting book:', error);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+};
